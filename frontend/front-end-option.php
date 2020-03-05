@@ -44,6 +44,22 @@ function campaign_category_function(){
 }
 
 /**
+ * Add a standard $ value surcharge to all transactions in cart / checkout
+ */
+add_action( 'woocommerce_cart_calculate_fees','wc_add_surcharge' ); 
+function wc_add_surcharge() {
+	global $woocommerce;
+	$user_id = get_current_user_id();
+	$current_customer = get_user_meta($user_id, 'user_customer', true);
+	$campaign_id = get_post_meta($current_customer, 'active_campaign', true);
+	$min_order_value = get_post_meta($campaign_id, 'min_order_value', true) ?: 0;
+	$shipping_price = get_post_meta($campaign_id, 'shipping_price', true) ?: 0;
+
+	if($min_order_value > 0){
+    	$woocommerce->cart->add_fee( 'Shipping Price', $shipping_price, true, 'standard' );  
+	}
+}
+/**
  * @author KK
  * AJAX Call Functions.
  */
