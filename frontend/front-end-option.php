@@ -44,6 +44,7 @@ function campaign_category_function(){
 }
 
 /**
+ * Task : UN2-T10
  * Add a standard $ value surcharge to all transactions in cart / checkout
  */
 add_action( 'woocommerce_cart_calculate_fees','wc_add_surcharge' ); 
@@ -56,7 +57,7 @@ function wc_add_surcharge() {
 	$shipping_price = get_post_meta($campaign_id, 'shipping_price', true) ?: 0;
 
 	if($min_order_value > 0){
-    	$woocommerce->cart->add_fee( 'Shipping Price', $shipping_price, true, 'standard' );  
+		$woocommerce->cart->add_fee( 'Shipping Price', $shipping_price, true, 'standard' );
 	}
 }
 /**

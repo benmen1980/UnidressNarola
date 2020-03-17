@@ -88,14 +88,15 @@ include('frontend/front-end-option.php');
  * @author KK
  * @param 1) array variable, 2) boolean = true or false
  * @return string with <pre> variable </pre>
- */
-function pr($data,$die=false){
-	echo '<pre>';
-	print_r($data);
-	echo '</pre>';
-	if($die == 'true'){
-		die('debug die');
+if (!function_exists('pr')) {
+	function pr($data,$die=false){
+		echo '<pre>';
+		print_r($data);
+		echo '</pre>';
+		if($die == 'true'){
+			die('debug die');
+		}
 	}
 }
-
+*/
 ?>

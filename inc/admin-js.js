@@ -2,6 +2,7 @@
 $ = jQuery;
 var ajaxUrl = "../wp-admin/admin-ajax.php";
 $(document).ready(function($){
+	// Task : UN2-T4
 	$('.unidress_budget').change(function() {
 		var user_id = $(this).data('id');
 		var budget_value = $(this).val();

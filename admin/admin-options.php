@@ -1,5 +1,6 @@
 <?php
 /**
+ * Task : UN2-T4
  * function for add 'Budget' columns into User List
  * @author KK
  * @return array
@@ -11,6 +12,7 @@ function unidress_narola_user_admin_list_function( $columns ) {
 }
 
 /**
+ * Task : UN2-T4
  * function for add TextBox in 'Budget' columns into User List
  * @author KK
  * @return array
@@ -26,6 +28,7 @@ function unidress_narola_show_user_column_content($value, $column_name, $user_id
 }
 
 /**
+ * Task : UN2-T9
  * action for add product category list into 'campaign' post type
  * @author KK
  * @return array
@@ -43,6 +46,7 @@ function unidress_narola_product_taxonomy() {
 /* ----- Admin Part : AJAX Call functions ----- */
 
 /**
+ * Task : UN2-T4
  * function for add data of user Budget.
  * @author KK
  * @param POST Data :- user_id(int), budget(int)
