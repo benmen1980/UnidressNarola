@@ -4,7 +4,6 @@
  * WooCommerce Category + Campaign category
  * @author KK
  */
-
 add_shortcode('campaign_category', 'campaign_category_function');
 function campaign_category_function(){
 	ob_start();
@@ -44,8 +43,8 @@ function campaign_category_function(){
 }
 
 /**
- * Task : UN2-T10
- * Add a standard $ value surcharge to all transactions in cart / checkout
+ * Add a standard value surcharge to all transactions in cart / checkout
+ * @author KK
  */
 add_action( 'woocommerce_cart_calculate_fees','wc_add_surcharge' ); 
 function wc_add_surcharge() {
@@ -54,14 +53,15 @@ function wc_add_surcharge() {
 	$current_customer = get_user_meta($user_id, 'user_customer', true);
 	$campaign_id = get_post_meta($current_customer, 'active_campaign', true);
 	$min_order_value = get_post_meta($campaign_id, 'min_order_value', true) ?: 0;
+	$min_order_charge = get_post_meta($campaign_id, 'min_order_charge', true) ?: 0;
 	$shipping_price = get_post_meta($campaign_id, 'shipping_price', true) ?: 0;
-
-	if($min_order_value > 0){
-		$woocommerce->cart->add_fee( 'Shipping Price', $shipping_price, true, 'standard' );
+	$total = $woocommerce->cart->get_totals('total')['cart_contents_total'];
+	
+	if( $min_order_value > 0 ){
+		if( $min_order_charge > 0 && $total < $min_order_charge ) {
+			$woocommerce->cart->add_fee( 'Shipping Price', $shipping_price, true, 'standard' );
+		}
 	}
 }
-/**
- * @author KK
- * AJAX Call Functions.
- */
+
 ?>
