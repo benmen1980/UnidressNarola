@@ -29,9 +29,30 @@ function campaign_category_function(){
 		<ul class="product-categories">
 		<?php
 			foreach ($taxonomy_list as $value) {
+				$args2 = array(
+					'taxonomy'     => $taxonomy,
+					'parent'       => $value->term_id,
+					'child_of'     => 0,
+					'hierarchical' => true,
+					'hide_empty'   => false
+	        	);
+        		$sub_cats = get_categories( $args2 );
 		?>
-				<li class="cat-item">
+				<li class="cat-item <?php if($sub_cats) { echo 'cat-parent'; } ?>">
 					<a href="<?php echo get_category_link($value->term_id); ?>"><?php echo $value->name; ?></a>
+					<?php
+						if($sub_cats) {
+							foreach ($sub_cats as $sub_category) {
+					?>
+								<ul class="children">
+									<li class="cat-item">
+										<a href="<?php echo get_category_link($sub_category->term_id); ?>"><?php echo $sub_category->name; ?></a>
+									</li>
+								</ul>
+					<?php
+							}
+						}
+					?>
 				</li>
 		<?php
 			}
