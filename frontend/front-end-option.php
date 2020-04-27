@@ -80,7 +80,7 @@ function wc_add_surcharge() {
 	
 	if( $min_order_value > 0 ){
 		if( $min_order_charge > 0 && $total < $min_order_charge ) {
-			$woocommerce->cart->add_fee( 'Shipping Price', $shipping_price, true, 'standard' );
+			$woocommerce->cart->add_fee( __('Shipping Price','unidress-narola'), $shipping_price, true, 'standard' );
 		}
 	}
 }

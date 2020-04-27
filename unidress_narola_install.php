@@ -1,7 +1,6 @@
 <?php
 
 /**
- * Task : UN2-T1
  * Add New Role : HR manager
  * @author : KK
  * @return : Add new user role into WodPress
