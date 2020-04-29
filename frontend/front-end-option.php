@@ -34,7 +34,7 @@ function campaign_category_function(){
 					'parent'       => $value->term_id,
 					'child_of'     => 0,
 					'hierarchical' => true,
-					'hide_empty'   => false
+					'hide_empty'   => true
 	        	);
         		$sub_cats = get_categories( $args2 );
 		?>
