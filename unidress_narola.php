@@ -14,13 +14,17 @@
  */
 
 // If this file is called directly then it will abort execution
-if(!defined('WPINC')){ die; }
+if (!defined('WPINC')) {
+	die;
+}
 
 // Define Unidress plugin directory path
-define('UNIDRESS_PLUGIN_PATH', plugin_dir_path( __FILE__ ));
+define('UNIDRESS_PLUGIN_PATH', plugin_dir_path(__FILE__));
 
 // Define Unidress plugin directory url
 define('UNIDRESS_PLUGIN_DRI_URL', plugin_dir_url(__FILE__));
+
+
 
 /**
  * function for check WordPsess Version is 5.0 & above.
@@ -28,19 +32,21 @@ define('UNIDRESS_PLUGIN_DRI_URL', plugin_dir_url(__FILE__));
  * @param function name
  * @return Error Message at new page and back to wordpress plugin page
  */
-register_activation_hook( __FILE__ , 'unidress_narola_plugin_activate' );
-function unidress_narola_plugin_activate(){
+register_activation_hook(__FILE__, 'unidress_narola_plugin_activate');
+function unidress_narola_plugin_activate()
+{
 
 	// Check WordPsess Version is 5.0 or above or not
-	function is_version($operator = '>', $version = '5.0'){
+	function is_version($operator = '>', $version = '5.0')
+	{
 		global $wp_version;
-		return version_compare( $wp_version, $version, $operator );
+		return version_compare($wp_version, $version, $operator);
 	}
 
 	// Require WordPress Version 5.0 or above
-	if( is_version() != 1 ){
+	if (is_version() != 1) {
 		// Custom Error message in WordPress admin style
-		wp_die('Sorry, but this plugin requires WordPress Version 5.0 above to be installed and active. <br><a href="'.admin_url('plugins.php').'">&laquo; Return to Plugins List</a>');
+		wp_die('Sorry, but this plugin requires WordPress Version 5.0 above to be installed and active. <br><a href="' . admin_url('plugins.php') . '">&laquo; Return to Plugins List</a>');
 	} else {
 		// Call installation PHP file for create required tables into database.
 		require('unidress_narola_install.php');
@@ -54,17 +60,19 @@ function unidress_narola_plugin_activate(){
  * @return NULL
  */
 //register_deactivation_hook( __FILE__ , 'remove_data');
-register_uninstall_hook( __FILE__ , 'remove_data');
-function remove_data(){
+register_uninstall_hook(__FILE__, 'remove_data');
+function remove_data()
+{
 	// Call PHP file for remove data related to Narola plugin.
 	require('unidress_narola_uninstall.php');
 }
 
 // Enqueue CSS & JS into WordPress admin part
 add_action('admin_enqueue_scripts', 'unidress_narola_wp_admin_style_scripts_loader');
-function unidress_narola_wp_admin_style_scripts_loader(){
-	wp_enqueue_style('custom_wp_admin_style', plugin_dir_url(__FILE__).'inc/admin-css.css');
-	wp_enqueue_script('custom_wp_admin_script', plugin_dir_url(__FILE__).'inc/admin-js.js', array('jquery'), '', true);
+function unidress_narola_wp_admin_style_scripts_loader()
+{
+	wp_enqueue_style('custom_wp_admin_style', plugin_dir_url(__FILE__) . 'inc/admin-css.css');
+	wp_enqueue_script('custom_wp_admin_script', plugin_dir_url(__FILE__) . 'inc/admin-js.js', array('jquery'), '', true);
 }
 
 // Include WordPress admin part files
@@ -83,6 +91,35 @@ function style_scripts_loader(){
 // Include WordPress front end part files
 include('frontend/front-end-option.php');
 
+
+/**
+ * function to load textdomain. 
+ */
+function unidress_narola_load_textdomain()
+{
+	$plugin_path   = dirname(__FILE__);
+	$plugin_folder = basename($plugin_path);
+	$text_domain   = 'unidress-narola';
+	$locale        = apply_filters('plugin_locale', get_locale(), $plugin_folder);
+	$domain_files  = array();
+
+	$domain_files[] = WP_LANG_DIR . "/{$plugin_folder}/{$plugin_folder}-{$locale}.mo";
+	$domain_files[] = WP_CONTENT_DIR . "/plugins/{$plugin_folder}/languages/{$plugin_folder}-{$locale}.mo";
+
+	foreach ($domain_files as $file) {
+		if (!file_exists($file)) {
+			continue;
+		}
+		load_textdomain($text_domain, $file);
+	}
+
+	if ($text_domain) {
+		load_plugin_textdomain($text_domain, false, plugin_basename($plugin_path) . "/languages");
+	}
+}
+add_action('init', 'unidress_narola_load_textdomain', 99);
+
+
 /**
  * function for display array with formatting and have additional die() option
  * @author KK
@@ -98,5 +135,4 @@ if (!function_exists('pr')) {
 		}
 	}
 }
-*/
-?>
+ */
